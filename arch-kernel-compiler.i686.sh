@@ -22,9 +22,9 @@ do
             clear
             cat<<EOF
             ==============================
-            Arch Linux Kernel Compiler's (i686) menu
+            Arch Linux Kernel Compiler's (ABS) menu
             ------------------------------
-            Welcome to the Arch Linux Kernel's (ABS) script!
+            Welcome to the Arch Linux Kernel Compiler's (ABS) script!
             Please do everything in the order (1-6)
 
             Please enter your choice:
@@ -320,7 +320,11 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              nano config.i686
+              sleep 1
+
+              cwd=$(pwd)
+
+              nano $cwd/linux/repos/core-i686/config.i686
 
               sleep 1
 
@@ -377,6 +381,8 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
+
+              cwd=$(pwd)
 
               updpkgsums $cwd/linux/repos/core-i686/PKGBUILD
 
@@ -459,9 +465,461 @@ EOF
           esac
         done
 
+        break
+
         ;;
 
         "Polski (pl)")
+        while :
+        do
+            clear
+            cat<<EOF
+            ==============================
+            Arch Linux Kernel Compiler's (ABS) menu
+            ------------------------------
+            Witaj w skrypcie Arch Linux Kernel Compiler (ABS)!
+            Proszę wykonywać polecenia według kolejności (1-6) (1-6)
+
+            Proszę wprowadzić swój wybór:
+
+            Zainstaluj base-devel i asp (1)
+            Edytuj plik konfiguracyjny makepkg, aby włączyć wielordzeniowość (2)
+            Wyodrębnij pliki pakietu jądra z ABS (3)
+            Edytuj PKGBUILD (4)
+            Konfiguracja jądra (5)
+            Kompiluj jądro (6)
+                   (W)yjdź
+
+            Autor: Daria Szatan (bla-ke)
+            Licencja: MIT
+            ------------------------------
+
+EOF
+            read -n1 -s
+            case "$REPLY" in
+            "1")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Czy chcesz zainstalować base-devel i asp?"
+            echo "^^^^^^ (Potrzebne do kompilacji jądra)"
+            echo "^^^^^^ [T - Tak, N - Nie]"
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            read confirmation
+
+            if [[ $confirmation == "t" || $confirmation == "T" || $confirmation == "tak" || $confirmation == "Tak" ]]; then
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Instalowanie wymaganych pakietów..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sudo pacman -S base-devel asp
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Zrobione!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            else
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Przerwane!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            fi
+
+            ;;
+            "2")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Czy zezwolić skryptowi na edycję pliku /etc/makepkg.conf?"
+            echo "^^^^^^ [T - Tak, N - Nie]"
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            read confirmation
+
+            if [[ $confirmation == "t" || $confirmation == "T" || $confirmation == "tak" || $confirmation == "Tak" ]]; then
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Odczytywanie liczby rdzeni procesora..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              CORE=$(nproc)
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Zrobione!"
+              echo "^^^^^^ Liczba rdzeni: $CORE"
+              echo "^^^^^^ Edytowanie pliku /etc/makepkg.conf..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sudo bash -c 'cat <<EOT >> '/etc/makepkg.conf'
+              MAKEFLAGS="$CORE"
+              EOT'
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Zrobione!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            else
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Przerwane!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            fi
+
+            ;;
+            "3")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Czy chcesz wyodrębnić pliki pakietu jądra z ABS?"
+            echo "^^^^^^ (Potrzebne do kompilacji jądra)"
+            echo "^^^^^^ [T - Tak, N - Nie]"
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            read confirmation
+
+            if [[ $confirmation == "t" || $confirmation == "T" || $confirmation == "tak" || $confirmation == "Tak" ]]; then
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Wyodrębnianie plików pakietu jądra..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              ASPROOT=. asp checkout linux
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Zrobione!"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            else
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Przerwane!"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            fi
+
+            ;;
+            "4")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Czy chcesz edytować nazwę pakietu?"
+            echo "^^^^^^ [T - Tak, N - Nie]"
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            read confirmation
+
+            if [[ $confirmation == "t" || $confirmation == "T" || $confirmation == "tak" || $confirmation == "Tak" ]]; then
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Musisz zmienić wartość parametru 'pkgbase'"
+              echo "^^^^^^ Wykonywanie komendy nano w ciągu 5 sekund..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 5
+
+              cwd=$(pwd)
+
+              nano $cwd/linux/repos/core-i686/PKGBUILD
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Zrobione!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            else
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Przerwane!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            fi
+
+            ;;
+            "5")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Czy chcesz edytować ręcznie konfigurację jądra?"
+            echo "^^^^^^ [T - Tak, N - Nie]"
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            read confirmation
+
+            if [[ $confirmation == "t" || $confirmation == "T" || $confirmation == "tak" || $confirmation == "Tak" ]]; then
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Edytowanie konfiguracji jądra za pomocą nano..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+              cwd=$(pwd)
+
+              nano $cwd/linux/repos/core-i686/config.i686
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Zrobione!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            else
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Przerwane!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            fi
+
+            ;;
+            "6")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Czy chcesz skompilować jądro?"
+            echo "^^^^^^ (Proces może zająć dużo czasu)"
+            echo "^^^^^^ [T - Tak, N - Nie]"
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            read confirmation
+
+            if [[ $confirmation == "t" || $confirmation == "T" || $confirmation == "tak" || $confirmation == "Tak" ]]; then
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Generowanie nowych checksums..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              cwd=$(pwd)
+
+              updpkgsums $cwd/linux/repos/core-i686/PKGBUILD
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Kompilowanie jądra..."
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              makepkg -si $cwd/linux/repos/core-i686/*
+
+              sleep 1
+
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Zrobione!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            else
+              echo ""
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^"
+              echo "^^^^^^ Przerwane!"
+              echo "^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+              echo ""
+
+              sleep 1
+
+            fi
+
+            ;;
+            "W")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Wychodzenie..."
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            sleep 1
+
+            break
+
+            ;;
+            "w")
+            echo ""
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^"
+            echo "^^^^^^ Wychodzenie..."
+            echo "^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            echo ""
+
+            sleep 1
+
+            break
+
+            ;;
+          esac
+        done
+
+        break
+
         ;;
 
         "Quit")
