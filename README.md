@@ -27,11 +27,11 @@ It's all ready! You can run them by:
 ```
 
 ## Warranty
-I don't give you any warranty: you use this script on you own.
+I don't give you any warranty: you use this script on you own (please read `LICENSE`)
 
 ## Language
 Available languages:
 - `English (en)`
 - `Polski (pl)`
 
-You can make your own translate of this script! Just download my files and add the next option in the first PS3!
+You can make your own translate of this script! Just download my files and add the next option in the first PS3.

@@ -70,7 +70,8 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              sudo pacman -S base-devel asp
+              sudo pacman -Sy
+              sudo pacman -S --needed base-devel asp
 
               sleep 1
 
@@ -203,7 +204,7 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              ASPROOT=. asp checkout linux
+              asp update linux && asp checkout linux
 
               sleep 1
 
@@ -376,15 +377,13 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo "^^^^^^"
-              echo "^^^^^^ Generating new checksums..."
+              echo "^^^^^^ Importing public GPG keys..."
               echo "^^^^^^"
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              cwd=$(pwd)
-
-              updpkgsums $cwd/linux/repos/core-i686/PKGBUILD
+              gpg --recv-keys 79BE3E4300411886 38DBBDC86092693E
 
               sleep 1
 
@@ -398,7 +397,7 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              makepkg -si $cwd/linux/repos/core-i686/*
+              cd linux/repos/core-i686/ && makepkg -si
 
               sleep 1
 
@@ -486,7 +485,7 @@ EOF
             Edytuj plik konfiguracyjny makepkg, aby włączyć wielordzeniowość (2)
             Wyodrębnij pliki pakietu jądra z ABS (3)
             Edytuj PKGBUILD (4)
-            Konfiguracja jądra (5)
+            Konfiguruj jądro (5)
             Kompiluj jądro (6)
                    (W)yjdź
 
@@ -523,7 +522,8 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              sudo pacman -S base-devel asp
+              sudo pacman -Sy
+              sudo pacman -S --needed base-devel asp
 
               sleep 1
 
@@ -656,7 +656,7 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              ASPROOT=. asp checkout linux
+              asp update linux && asp checkout linux
 
               sleep 1
 
@@ -829,15 +829,13 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo "^^^^^^"
-              echo "^^^^^^ Generowanie nowych checksums..."
+              echo "^^^^^^ Importowanie publicznych kluczy GPG"
               echo "^^^^^^"
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              cwd=$(pwd)
-
-              updpkgsums $cwd/linux/repos/core-i686/PKGBUILD
+              gpg --recv-keys 79BE3E4300411886 38DBBDC86092693E
 
               sleep 1
 
@@ -851,7 +849,7 @@ EOF
               echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
               echo ""
 
-              makepkg -si $cwd/linux/repos/core-i686/*
+              cd linux/repos/core-i686/ && makepkg -si
 
               sleep 1
 
